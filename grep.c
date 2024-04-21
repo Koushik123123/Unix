@@ -1,17 +1,22 @@
 #include<stdio.h>
-#include<stdlib.h>
+#include<string.h>
+#define MAX_LINE_LENGTH 1024
 int main(int argc,char *argv[])
 {
-	if(argc!=3) 
+	if(argc!=2)
 	{
-		fprintf(stderr,"Usage : %s<source> <destintion> \n",argv[0]);
-		exit(EXIT_FAILURE);
+		fprintf(stderr,"Usage: %s <pattern>\n",argv[0]);
+		return 1;
 	}
-	if(rename(argv[1],argv[2])==-1)
+	char pattern[MAX_LINE_LENGTH];
+	strcpy(pattern,argv[1]);
+	char line[MAX_LINE_LENGTH];
+	while(fgets(line,sizeof(line),stdin)!=NULL) 
 	{
-		perror("mv");
-		exit(EXIT_FAILURE);
+		if(strstr(line,pattern)!=NULL)
+		{
+			printf("%s",line);
+		}
 	}
-	printf("Moved '%s' to '%s'\n",argv[1],argv[2]);
 	return 0;
 }
